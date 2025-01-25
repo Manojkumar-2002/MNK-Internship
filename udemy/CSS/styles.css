@@ -1,0 +1,57 @@
+body {
+    font-family: Arial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: radial-gradient(#021027, #000000);
+}
+
+.poster {
+    width: 600px;
+    height: 600px;
+    background: #e01313ef;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0px 20px 2px rgb(128, 121, 109);
+    border: 1px solid rgb(128, 121, 109,0.5);
+}
+
+.poster-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20%;
+    margin-bottom: 20px;
+    box-shadow: 0 0px 20px 2px rgb(52, 51, 49);
+}
+
+.poster h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.poster p {
+    font-size: 1.5em;
+    margin-top: 10px;
+    max-width: 80%;
+}
+
+.poster .quote {
+    font-style: italic;
+    font-size: 1.2em;
+    margin-top: 30px;
+}
+
+.footer {
+    font-size: 1.1em;
+    margin-top: 50px;
+}
