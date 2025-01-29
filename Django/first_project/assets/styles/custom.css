@@ -1,0 +1,10 @@
+.truncate-description {
+    line-height: 1.5em !important;
+    height: 3em !important;      
+    overflow: hidden !important;
+    color: blue !important;
+}
+
+.colors {
+    background: #000;
+}

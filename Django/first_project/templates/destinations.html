@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Destinations</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/custom.css' %}">
+
+</head>
+
+<body style="background-image: radial-gradient(  #021027,#000000);">
+
+    <div class="container mt-5  justify-content-center mx-auto text-white">
+        {% if areas %}
+        <h2 class="text-center mb-4">Areas in {{destination.city_name}}</h2>
+        <div class="row colors">
+            {% for area in areas %}
+            <div class="col-md-4 mb-4">
+                <div class="card text-center">
+                    <img src="{{ area.image.url }}" class="card-img-top " alt="{{ area.area_name }}">
+
+                    {% if area.offer %}
+                    <div class="badge bg-danger position-absolute top-0 end-0 m-3">Special Offer</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ area.area_name }}</h5>
+                        <p class="card-text truncate-description">{{ area.area_desc }}</p>
+                        <p><strong>Price:</strong> {{ area.price }}</p>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center">No additional areas available for this destination.</p>
+        {% endif %}
+
+        <div class="comments justify-content-center ">
+            <h2 class="text-center mb-4 ">Comments</h2>
+            
+            <div class="mb-3 comments-show w-100 border p-2"  onclick="toggleExpand(this)">
+                {% if comments %}
+                {% for comment in comments %}
+                <h6>{{comment.user.username}}</h6>
+                <p class="ms-30">{{comment.content}}</p>
+                
+                {% endfor %}
+                {% else %}
+                <h6>No Comments</h6>
+                {% endif %}
+
+            </div>
+    
+            <form method="POST" action="{% url 'comments' id=destination.id %}">
+                {% csrf_token %}
+    
+                
+                <div class="mb-3 d-flex w-100 ">
+                    <input type="text" name="comment-inp" id="text-id" class="form-control me-2 w-100"
+                        placeholder="Type something" required>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    
+    
+    </div>
+    <script>
+        function toggleExpand(element) {
+            element.classList.toggle('expanded');
+        }
+
+    </script>
+
+    
+
+
+
+</body>
+
+</html>

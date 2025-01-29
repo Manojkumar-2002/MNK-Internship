@@ -1,0 +1,49 @@
+# Compiled bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+.env/
+.Python
+
+# Distribution files
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# Logs
+*.log
+*.out
+*.err
+
+# Unit test coverage
+coverage/
+*.cover
+.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.*
+
+# Static analysis tools
+.mypy_cache/
+.pytest_cache/
+.pylint.d/

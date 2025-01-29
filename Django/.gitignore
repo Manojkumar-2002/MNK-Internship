@@ -1,0 +1,48 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Distribution files
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environment
+venv/
+firstenv/
+
+# Django-specific files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+media/
+static/
+
+# Coverage reports
+.coverage
+coverage.xml
+*.cover
+*.hypothesis/
+
+# IDEs and text editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*~
+*.bak
+*.swp
