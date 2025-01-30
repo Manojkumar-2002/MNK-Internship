@@ -5,12 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/custom.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
     <title>User Registration</title>
 </head>
 
-<body>
-    <div class="container">
+<body class="parent-container">
+    <div class="container bg-transparent">
         <h2 class="text-center my-4">User Registration</h2>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}

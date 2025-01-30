@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,78 +7,173 @@
     <title>Destinations</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/custom.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 </head>
 
-<body style="background-image: radial-gradient(  #021027,#000000);">
+<body class="parent-container">
 
     <div class="container mt-5  justify-content-center mx-auto text-white">
         {% if areas %}
         <h2 class="text-center mb-4">Areas in {{destination.city_name}}</h2>
-        <div class="row colors">
+        <div class="row g-4">
             {% for area in areas %}
-            <div class="col-md-4 mb-4">
-                <div class="card text-center">
-                    <img src="{{ area.image.url }}" class="card-img-top " alt="{{ area.area_name }}">
-
-                    {% if area.offer %}
-                    <div class="badge bg-danger position-absolute top-0 end-0 m-3">Special Offer</div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ area.area_name }}</h5>
-                        <p class="card-text truncate-description">{{ area.area_desc }}</p>
-                        <p><strong>Price:</strong> {{ area.price }}</p>
-
+                <div class="col-md-6 col-sm-12 col-lg-4 mb-4">
+                    <div class="card text-center border position-relative">
+                        <img src="{{ area.image.url }}" class="card-img-top" alt="{{ area.area_name }}">
+    
+                        {% if area.offer %}
+                            <div class="badge bg-danger position-absolute top-0 end-0 m-3">Special Offer</div>
+                        {% endif %}
+    
+                        <div class="card-body">
+                            <h5 class="card-title">{{ area.area_name }}</h5>
+                            <p class="card-text truncate-description">{{ area.area_desc }}</p>
+                            <p><strong>Price:</strong> {{ area.price }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
-        {% else %}
+    {% else %}
         <p class="text-center">No additional areas available for this destination.</p>
-        {% endif %}
+    {% endif %}
+    
 
+
+
+        <!-- comments -->
         <div class="comments justify-content-center ">
             <h2 class="text-center mb-4 ">Comments</h2>
+
+            <div class="d-flex justify-content-center">
+                <form  method="POST" action="{% url 'destinations' id=destination.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" id="like-id" value="like" placeholder="">
+                    <button type="submit" class="btn bg-transparent text-white"><i class="fas fa-heart icon" {% if user_liked %} style="color: red;" {% else %} style="color: rgb(222, 222, 222);" {% endif %}></i> {{likes}}</button>
+                </form>
+                <form  method="POST" action="{% url 'destinations' id=destination.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="dislike" id="dislike-id" value="dislike" placeholder="">
+                    <button type="submit" class=" btn bg-transparent text-white"><i class="far fa-thumbs-down icon  "  {% if user_disliked %}  style="color: red;" {% else %} style="color: rgb(222, 222, 222);" {% endif %}></i> {{dislikes}}</button>
+                </form>
+                <button onclick="toggleComment()" class="bg-transparent btn text-light"><i class="fas fa-comment"></i> {{count}}</button>
             
-            <div class="mb-3 comments-show w-100 border p-2"  onclick="toggleExpand(this)">
+            </div>
+
+
+            <div class="mb-3 comments-show w-100 border p-2" id = 'comment-dis' style="display: none;">
+
                 {% if comments %}
-                {% for comment in comments %}
-                <h6>{{comment.user.username}}</h6>
-                <p class="ms-30">{{comment.content}}</p>
-                
-                {% endfor %}
-                {% else %}
-                <h6>No Comments</h6>
+
+                    {% for comment in comments %}
+                        {% if not comment.parent_comment %}
+                       
+                            <h6 class="d-flex justify-content-between"><span>{{comment.user.username}}</span><span class="text-end"> ({{comment.created_at}})</span></h6>
+                            <div class="d-flex">
+                                <div>
+                                    <p class="ms-30">{{comment.content}} </p>
+                                </div>
+                                <div class="d-flex ml-2">
+                                    <button onclick="toggleReplies('{{ comment.id }}','{{ comment.user.username }}')" class="btn bg-transparent text-light mt-0 "><i class="fas fa-comment"></i></button>
+                                    <p class="mt-3"> {{comment.replies.count}}</p>
+                                </div>
+                                
+                                
+                            </div>
+                        {% endif %}
+
+                         
+                            <div id="{{ comment.id }}" class="mx-2" style="display: none;">
+                                <p>replies</p>
+                                <hr style="border: 2px dashed rgba(221, 237, 238, 0.3);">
+                                {% for reply in comment.replies.all %}
+                                    <h6 class="ml-2 d-flex"><span>{{reply.user.username}}</span> <span class="me-auto"> ({{reply.created_at}})</span></h6>
+                                    <p class="ml-2">{{reply.content}}</p>
+                                {% endfor %}
+
+                      
+
+                                
+                            </div>
+                        
+                    {% endfor %}
+
+
+                    {% else %}
+                    <h6>No Comments</h6>
                 {% endif %}
 
             </div>
-    
-            <form method="POST" action="{% url 'comments' id=destination.id %}">
+
+            <form method="POST" action="{% url 'comments' id=destination.id %}" class='comment-form' style="display: none;">
                 {% csrf_token %}
-    
-                
+
+
                 <div class="mb-3 d-flex w-100 ">
+                    <input type="hidden" name="parent_id" id="parent-id" value="" placeholder="">
+                    <div id = "parent-display" style="display: none; "></div>
                     <input type="text" name="comment-inp" id="text-id" class="form-control me-2 w-100"
                         placeholder="Type something" required>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
-    
-    
+
+        
+
+
     </div>
     <script>
-        function toggleExpand(element) {
-            element.classList.toggle('expanded');
+
+        function toggleReplies(id, username) {
+        
+            let element = document.getElementById(id);
+            let parent = document.getElementById('parent-id');
+            let parent_display = document.getElementById('parent-display')
+
+            if (element.style.display == "none") {
+                element.style.display = "block";
+                element.style.border = "1px solid white";
+                parent.value = id;
+                parent_display.style.display = 'block'
+                console.log(username)
+                parent_display.innerHTML = "reply to " + username;
+            
+             
+                
+            } else {
+                element.style.display = "none"; 
+                parent.value = '';
+                parent_display.style.display = 'none'
+                document.getElementById('parent-display').innerHTML = "";
+            }
         }
+
+        function toggleComment() {
+            let comment_dis = document.getElementById('comment-dis');
+            let comment_form = document.getElementById('comment-form');
+            
+            if (comment_dis.style.display == 'none') {
+               
+                comment_dis.style.display = 'block';
+                comment_form.style.display = 'block';
+            }
+            else {
+    
+                comment_dis.style.display = 'none';
+                comment_form.style.display = 'none';
+            }
+        }
+        
+        
 
     </script>
 
-    
+
 
 
 
 </body>
 
-</html>
+</html> 

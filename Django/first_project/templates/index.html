@@ -36,7 +36,7 @@
 								<nav class="main_nav">
 									<ul class="d-flex flex-row align-items-start justify-content-start">
 										<li class="active"><a href="{% url 'index' %}">Home</a></li>
-										<li><a href="{% url 'about' %}">About us</a></li>
+										<li><a href="#">About us</a></li>
 										<li><a href="#">Services</a></li>
 										{% if user.is_authenticated %}
 										<li><a href="{#">Hii {{user.first_name}}</a></li>
@@ -97,7 +97,7 @@
 			<div class="menu_content">
 				<ul>
 					<li><a href="{% url 'index' %}">Home</a></li>
-					<li><a href="{% url 'about' %}">About us</a></li>
+					<li><a href="#">About us</a></li>
 					<li><a href="#">Services</a></li>
 					{% if user.is_authenticated %}
 					<li><a href="{#">Hii {{user.first_name}}</a></li>
