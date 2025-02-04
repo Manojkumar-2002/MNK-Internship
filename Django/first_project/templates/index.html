@@ -23,6 +23,7 @@
 <body>
 
 	<div class="super_container">
+		<div id="user" style="display: none;">{{user.id}}</div>
 
 		<!-- Header -->
 
@@ -316,7 +317,8 @@
 									<p class="card-text truncate-description">{{dest.desc}}</p>
 									<div class="d-flex justify-content-between align-items-center">
 										<span class="h5">₹ {{dest.price}}</span>
-										<a href="{% url 'destinations' id=dest.id %}" class="btn btn-primary">See More</a>
+
+										<a class="btn btn-primary see-more-btn"  href="{% url 'destinations' id=dest.id %}">See More</a>
 									</div>
 								</div>
 							</div>
@@ -627,6 +629,8 @@
 	<script src="{% static 'plugins/easing/easing.js' %}"></script>
 	<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
 	<script src="{% static 'js/custom.js' %}"></script>
+	
 </body>
 
 </html>
+

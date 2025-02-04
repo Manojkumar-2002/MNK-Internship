@@ -1,96 +1,57 @@
 from django.shortcuts import render, redirect
-from .models import Destination, Comments
+from .models import Destination, Comments, IPAddress
 from django.contrib import messages
 from django.utils.html import strip_tags
+from django.http import HttpResponseRedirect
 
-COUNT = 0
+
+
 # Create your views here.
 def index(request):
     dests = Destination.objects.all()
+    if request.user.is_authenticated:
+        return render(request,'index.html',{"dests":dests,"user":request.user})
     return render(request,'index.html',{"dests":dests})
     
 
+
+
 def destinations(request, id):
-    if not request.user.is_authenticated:
-        global COUNT
-        COUNT += 1
-        if COUNT < 3:
-            print(COUNT)
-            destination = Destination.objects.get(id=id)
-            user_liked = destination.liked_by.filter(id=request.user.id).exists()
-            user_disliked = destination.disliked_by.filter(id=request.user.id).exists()
-            if request.method == 'POST':
-            
-                if 'like' in request.POST:
-                    if user_liked:
-                        destination.liked_by.remove(request.user)
-                    else:
-                        destination.liked_by.add(request.user)
-                    
-                    
-            
-                if 'dislike' in request.POST:
-                    if user_disliked:
-                        destination.disliked_by.remove(request.user)
-                    else:
-                        destination.disliked_by.add(request.user)
-                        
-                destination.save()
-                        
-            areas = destination.details.all()
-            comments = destination.comments.all()
-            likes = destination.liked_by.count()
-            dislikes = destination.disliked_by.count()
-            
-            user_liked = destination.liked_by.filter(id=request.user.id).exists()
-            user_disliked = destination.disliked_by.filter(id=request.user.id).exists()
-            
-            for comment in comments:
-                comment.content = strip_tags(comment.content)
+    destination = Destination.objects.get(id=id)
+    user_liked = destination.liked_by.filter(id=request.user.id).exists()
+    user_disliked = destination.disliked_by.filter(id=request.user.id).exists()
+    if request.method == 'POST':
+        
+        if 'like' in request.POST:
+            if user_liked:
+                destination.liked_by.remove(request.user)
+            else:
+                destination.liked_by.add(request.user)
                 
-            
-            
-            return render(request,'destinations.html',{"areas":areas,"destination":destination,"comments":comments,"count":len(comments),"likes":likes,"dislikes":dislikes,"user_liked": user_liked,"user_disliked": user_disliked})
-            
-        else:
-            messages.info(request,'You need to login to view more')
-            return redirect('login')
-    else:
-        destination = Destination.objects.get(id=id)
-        user_liked = destination.liked_by.filter(id=request.user.id).exists()
-        user_disliked = destination.disliked_by.filter(id=request.user.id).exists()
-        if request.method == 'POST':
-            
-            if 'like' in request.POST:
-                if user_liked:
-                    destination.liked_by.remove(request.user)
-                else:
-                    destination.liked_by.add(request.user)
-                    
-                    
-            
-            if 'dislike' in request.POST:
-                if user_disliked:
-                    destination.disliked_by.remove(request.user)
-                else:
-                    destination.disliked_by.add(request.user)
-                        
-            destination.save()
-                        
-        areas = destination.details.all()
-        comments = destination.comments.all()
-        likes = destination.liked_by.count()
-        dislikes = destination.disliked_by.count()
-            
-        user_liked = destination.liked_by.filter(id=request.user.id).exists()
-        user_disliked = destination.disliked_by.filter(id=request.user.id).exists()
-            
-        for comment in comments:
-            comment.content = strip_tags(comment.content)
                 
+        
+        if 'dislike' in request.POST:
+            if user_disliked:
+                destination.disliked_by.remove(request.user)
+            else:
+                destination.disliked_by.add(request.user)
+                    
+        destination.save()
+        return HttpResponseRedirect(request.path)
+                    
+    areas = destination.details.all()
+    comments = destination.comments.all()
+    likes = destination.liked_by.count()
+    dislikes = destination.disliked_by.count()
+        
+    for comment in comments:
+        comment.content = strip_tags(comment.content)
             
-            
-        return render(request,'destinations.html',{"areas":areas,"destination":destination,"comments":comments,"count":len(comments),"likes":likes,"dislikes":dislikes,"user_liked": user_liked,"user_disliked": user_disliked})
+        
+    print(f"Returning response for destination ID: {id}")
+    return render(request,'destinations.html',{"areas":areas,"destination":destination,"comments":comments,"count":len(comments),"likes":likes,"dislikes":dislikes,"user_liked": user_liked,"user_disliked": user_disliked})
+    
+    
         
 
 def comments(request,id):

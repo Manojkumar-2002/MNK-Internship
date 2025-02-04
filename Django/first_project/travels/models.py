@@ -38,3 +38,16 @@ class Comments(models.Model):
      def __str__(self):
         return self.user.username
     
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField(unique=True)
+    count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.ip_address
+    
+    def increment_attempt(self):
+        self.count += 1
+        self.save()
+        
+    def get_attempt_count(self):
+        return self.count
