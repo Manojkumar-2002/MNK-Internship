@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Basic Details{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h3>Employee Selection Form</h3>
+    </div>
+    <div class="card-body justify-content-center">
+        <form action="{% url 'basic' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="full_name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="full_name" placeholder="Enter full name"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="position" class="form-label">Position Applied For</label>
+                <select class="form-control" id="position" name="position" required>
+                    <option value="" selected disabled>Select a position</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                    <option value="Project Manager">Project Manager</option>
+                    <option value="HR Manager">HR Manager</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="experience" class="form-control" >Experience:</label>
+                <select class="form-control" name="experience" id="experience" name="experience" required>
+                    {% for key, value in experience_choices %}
+                    {{key}}
+                    <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                </select><br><br>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="resume" class="form-label">Upload Resume</label>
+                <input type="file" class="form-control" id="resume" name="resume">
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit Application</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

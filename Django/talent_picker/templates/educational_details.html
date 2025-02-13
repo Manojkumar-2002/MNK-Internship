@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Educational Details Form{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h3>Educational Details Form</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="highest_degree" class="form-label">Highest Degree</label>
+                <input type="text" class="form-control" id="highest_degree" name="highest_degree" placeholder="Enter highest degree" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="university" class="form-label">University/College Name</label>
+                <input type="text" class="form-control" id="university" name="university" placeholder="Enter university/college name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="graduation_year" class="form-label">Year of Graduation</label>
+                <input type="number" class="form-control" id="graduation_year" name="graduation_year" placeholder="Enter year of graduation" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="specialization" class="form-label">Specialization</label>
+                <input type="text" class="form-control" id="specialization" name="specialization" placeholder="Enter specialization (e.g., Computer Science)" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="percentage" class="form-label">Percentage/CGPA</label>
+                <input type="number" class="form-control" id="percentage" name="percentage" placeholder="Enter your percentage or CGPA" step="0.01" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="education_proof" class="form-label">Upload Education Proof</label>
+                <input type="file" class="form-control" id="education_proof" name="education_proof">
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit Educational Details</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

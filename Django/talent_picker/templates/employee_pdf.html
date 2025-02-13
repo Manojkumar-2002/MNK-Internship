@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Employee PDF{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        h2, h4 {
+            color: #333;
+        }
+    </style>
+
+    <div class="row align-items-center">
+        <div class="col-6">
+            <h2>Employee Details</h2>
+        </div>
+        <div class="col-6 text-end">
+            <img src="{{ logo_path }}" alt="Company Logo" style="height: 50px; width: 100px;">
+        </div>
+    </div>
+
+  
+
+    <h4>Personal Information</h4>
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Position</th>
+            <th>Experience</th>
+            <th>Resume</th>
+        </tr>
+        <tr>
+            <td>{{ employee.full_name }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.phone }}</td>
+            <td>{{ employee.position }}</td>
+            <td>{{ employee.get_experience_display }}</td>
+            <td>
+                {% if employee.resume %}
+                    <a href="{{ resume_url }}" target="_blank" class="btn btn-info btn-sm">
+                        <i class="fas fa-file-alt"></i> View Resume
+                    </a>
+                {% else %}
+                    <span class="text-muted">No Resume</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <h4>Education Details</h4>
+    <table>
+        <tr>
+            <th>Degree</th>
+            <th>University</th>
+            <th>Graduation Year</th>
+            <th>Specialization</th>
+            <th>Percentage</th>
+            <th>Educational Proof</th>
+        </tr>
+        {% if employee.education %}
+        <tr>
+            <td>{{ employee.education.highest_degree }}</td>
+            <td>{{ employee.education.university }}</td>
+            <td>{{ employee.education.graduation_year }}</td>
+            <td>{{ employee.education.specialization }}</td>
+            <td>{{ employee.education.percentage }}%</td>
+            <td>
+                {% if employee.education.education_proof %}
+                    <a href="{{ proof_url }}" target="_blank" class="btn btn-success btn-sm">
+                        <i class="fas fa-file"></i> View Proof
+                    </a>
+                {% else %}
+                    <span class="text-muted">No Proof</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center">No Education Data</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <h4>Bank Details</h4>
+    <table>
+        <tr>
+            <th>Account Holder</th>
+            <th>Account Number</th>
+            <th>Bank Name</th>
+            <th>IFSC Code</th>
+            <th>Branch</th>
+            <th>Account Type</th>
+        </tr>
+        {% if employee.bank_details %}
+        <tr>
+            <td>{{ employee.bank_details.account_holder }}</td>
+            <td>{{ employee.bank_details.account_number }}</td>
+            <td>{{ employee.bank_details.bank_name }}</td>
+            <td>{{ employee.bank_details.ifsc_code }}</td>
+            <td>{{ employee.bank_details.branch_name }}</td>
+            <td>{{ employee.bank_details.account_type }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center">No Bank Details</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <h4>Previous Employment</h4>
+    <table>
+        <tr>
+            <th>Company</th>
+            <th>Job Title</th>
+            <th>Duration</th>
+            <th>Reason for Leaving</th>
+            <th>Skills</th>
+            <th>Reference</th>
+        </tr>
+        {% if employee.previous_employment %}
+        <tr>
+            <td>{{ employee.previous_employment.company_name }}</td>
+            <td>{{ employee.previous_employment.job_title }}</td>
+            <td>{{ employee.previous_employment.employment_duration }}</td>
+            <td>{{ employee.previous_employment.reason_for_leaving }}</td>
+            <td>{{ employee.previous_employment.skills_acquired }}</td>
+            <td>{{ employee.previous_employment.company_reference|default:"N/A" }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center">No Previous Employment</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <div class="sign mt-3">
+        <img src="{{ sign_path }}" alt="Signature" class="sign">
+    </div>
+{% endblock %}

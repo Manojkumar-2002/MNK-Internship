@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Previous Employment Form{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h3>Previous Employment Details</h3>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="company_name" class="form-label">Previous Company Name</label>
+                <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Enter previous company name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="job_title" class="form-label">Job Title</label>
+                <input type="text" class="form-control" id="job_title" name="job_title" placeholder="Enter job title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="employment_duration" class="form-label">Duration of Employment</label>
+                <input type="text" class="form-control" id="employment_duration" name="employment_duration" placeholder="Enter duration (e.g., 2 years)" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="reason_for_leaving" class="form-label">Reason for Leaving</label>
+                <input type="text" class="form-control" id="reason_for_leaving" name="reason_for_leaving" placeholder="Enter reason for leaving" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="skills_acquired" class="form-label">Skills Acquired</label>
+                <textarea class="form-control" id="skills_acquired" name="skills_acquired" rows="4" placeholder="Enter skills acquired in the previous job" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="company_reference" class="form-label">Company Reference (optional)</label>
+                <input type="text" class="form-control" id="company_reference" name="company_reference" placeholder="Enter company reference (if applicable)">
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit Previous Employment Details</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
