@@ -15,6 +15,34 @@ build/
 # Virtual Environment
 venv/
 firstenv/
+secondenv/  # ✅ Add this to ignore the second virtual environment
+
+# Django-specific files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+media/
+static/# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Distribution files
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environments
+venv/
+firstenv/  # ✅ Ignore firstenv
+secondenv/  # ✅ Ignore secondenv
 
 # Django-specific files
 *.log
@@ -25,6 +53,34 @@ firstenv/
 *.sqlite3
 media/
 static/
+
+# Environment files
+.env  # ✅ Ignore .env files
+
+# Coverage reports
+.coverage
+coverage.xml
+*.cover
+*.hypothesis/
+
+# IDEs and text editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*~
+*.bak
+*.swp
+
+
+# Environment files
+.env  # ✅ Add this to ignore .env files
 
 # Coverage reports
 .coverage

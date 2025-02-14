@@ -16,6 +16,10 @@ dist/
 *.egg
 *.whl
 
+venv/
+firstenv/  # ✅ Ignore firstenv
+secondenv/  # ✅ Ignore secondenv
+
 # Logs
 *.log
 *.out
